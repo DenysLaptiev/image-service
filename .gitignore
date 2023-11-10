@@ -1,0 +1,47 @@
+README.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### maven ###
+.mvn/
+mvnw
+mvnw.cmd
+
+### SSL certificates ###
+image_service_csr.pem
+image_service_privatekey.pem
+image_service_public.crt
+
+keycloak_csr.pem
+keycloak_privatekey.pem
+keycloak_public.crt
