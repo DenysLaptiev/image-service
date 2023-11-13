@@ -1,4 +1,4 @@
-package com.springboot.image_service.config.aws;
+package com.springboot.image_service.config.aws.s3;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

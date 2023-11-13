@@ -1,5 +1,6 @@
 package com.springboot.image_service.service;
 
+import com.springboot.image_service.model.NotificationRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,11 +22,18 @@ public class FileServiceImpl implements FileService {
     @Value("${aws.s3.bucket-name}")
     private String BUCKET_NAME;
 
+    @Value("${cloud.aws.topic.name}")
+    private String TOPIC_NAME;
+
+    private String SUBJECT_SNS_FROM_IMAGE_SERVICE = "SNS from image-service" ;
+
     private final S3Client s3Client;
+    private final SNSService snsService;
 
     @Autowired
-    public FileServiceImpl(S3Client s3Client) {
+    public FileServiceImpl(S3Client s3Client, SNSService snsService) {
         this.s3Client = s3Client;
+        this.snsService = snsService;
     }
 
     @Override
@@ -59,7 +67,11 @@ public class FileServiceImpl implements FileService {
             isUploaded[0] = true;
         });
 
-        log.info("The file " + fileName + " is ready");
+        log.info("The file " + fileName + " is uploaded");
+
+        snsService.sendSNS(
+                new NotificationRequest(TOPIC_NAME, "file uploaded", SUBJECT_SNS_FROM_IMAGE_SERVICE)
+        );
         return isUploaded[0];
     }
 
