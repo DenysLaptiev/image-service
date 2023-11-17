@@ -19,13 +19,14 @@ import java.util.List;
 @Slf4j
 public class FileServiceImpl implements FileService {
 
+    private static final String SNS_SUBJECT_UPLOAD_CONFIRMATION = "SNS from image-service. File Uploaded";
+    private static final String SNS_SUBJECT_DELETE_CONFIRMATION = "SNS from image-service. File Deleted";
+
     @Value("${aws.s3.bucket-name}")
     private String BUCKET_NAME;
 
     @Value("${cloud.aws.topic.name}")
     private String TOPIC_NAME;
-
-    private String SUBJECT_SNS_FROM_IMAGE_SERVICE = "SNS from image-service" ;
 
     private final S3Client s3Client;
     private final SNSService snsService;
@@ -70,7 +71,7 @@ public class FileServiceImpl implements FileService {
         log.info("The file " + fileName + " is uploaded");
 
         snsService.sendSNS(
-                new NotificationRequest(TOPIC_NAME, "file uploaded", SUBJECT_SNS_FROM_IMAGE_SERVICE)
+                new NotificationRequest(TOPIC_NAME, "file uploaded", SNS_SUBJECT_UPLOAD_CONFIRMATION)
         );
         return isUploaded[0];
     }
@@ -143,6 +144,10 @@ public class FileServiceImpl implements FileService {
         log.info("--> deleteObjectResponse=" + deleteObjectResponse);
         log.info("--> deleteObjectResponse.deleteMarker()=" + deleteObjectResponse.deleteMarker());
         //TODO: add check if the file was deleted
+
+        snsService.sendSNS(
+                new NotificationRequest(TOPIC_NAME, "file deleted", SNS_SUBJECT_DELETE_CONFIRMATION)
+        );
         return true;
     }
 

@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .antMatchers("/test").permitAll() //TODO: remove this after tests
                 .antMatchers("/file").permitAll() //TODO: remove this after tests
+                .antMatchers("/file-rest/delete/**").permitAll() //TODO: remove this after tests
                 .anyRequest().authenticated();
 
         http.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> {
