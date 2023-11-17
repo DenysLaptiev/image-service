@@ -37,6 +37,7 @@ public class SecurityConfig {
         // configure http security
 
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/test").permitAll() //TODO: remove this after tests
                 .antMatchers("/file").permitAll() //TODO: remove this after tests
